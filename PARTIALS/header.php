@@ -12,18 +12,17 @@
   </head>
   <nav class="navbar navbar-expand-lg bg-body-tertiary text-white" style="background: rgb(2,0,36);
 background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(36,37,17,1) 17%, rgba(6,69,24,1) 47%, rgba(13,116,84,1) 72%, rgba(27,122,118,1) 85%, rgba(14,122,126,1) 94%, rgba(1,73,88,1) 100%); border-bottom: 1px solid white">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white" href="index.php">Zoo</a>
+  <div class="container-fluid mx-3">
+    <a class="navbar-brand text-white" href="index.php">
+      <img src="IMAGES/footprint.png" alt="" width="25" height="25">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="text-white nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="text-white nav-link active" aria-current="page" href="enclosures.php">Animals</a>
         </li>
       </ul>
     </div>
