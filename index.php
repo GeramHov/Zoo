@@ -43,7 +43,7 @@
     </h1>
   </a>
   <img id="keeper" src="ICONS/keeper.png" alt="" width=192 height="320" style="position:absolute; top:5vw">
-  <div id="bubble" class="bubble bubble-bottom-left text-white" contenteditable style="position:absolute; left:6vw; bottom: 82vh">Hi, I'm Leopold! Welcome to our zoo</div>
+  <div id="bubble" class="bubble bubble-bottom-left text-white" contenteditable style="position:absolute; left:6vw; bottom: 82vh">Hi, I'm Pablo! Welcome to our zoo</div>
     <div class="bubble bubble-bottom-left text-white add" contenteditable style="position:absolute; right:0; top:2vh">Wanna get a new animal for our zoo? <br>
       Click on the plus below</div>
       <a href="insert_animal.php">

@@ -1,9 +1,23 @@
 <?php
+
 class AnimalManager {
     private $db;
-
+    
     public function __construct(PDO $db) {
         $this->db = $db;
+    }
+
+    public function getAnimals() {
+        $sql = "SELECT * FROM animals";
+        $statement = $this->db->query($sql);
+        
+        $animals = [];
+        $allAnimals = $statement->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($allAnimals as $animal) {
+            $animals[] = new Animal($animal);
+        }
+    
+        return $animals;
     }
 
     public function addAnimal($specie_type, $specie_name, $size, $weight, $age, $enclosure_name, $icon, $sound) {
@@ -32,6 +46,10 @@ class AnimalManager {
             <p class='text-light'>Animal added successfully!</p>
             </div>";
         }
+    }
+
+    public function prettyDump($data){
+        highlight_string("<?php\n\$data =\n" . var_export($data, true) . ";\n?>");
     }
 }
 ?>

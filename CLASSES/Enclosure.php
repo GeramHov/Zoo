@@ -1,33 +1,70 @@
 <?php
-class Enclosure {
-        private $db;
+class Enclosure 
+{
+        private $id;
+        private $name;
+        private $tideIndex;
+// ADD A ENCLOSURE ANIMAL COUNT LIMITED TO 6
+        private $animals = []; 
         
-        public function __construct($db) {
-            $this->db = $db;
+        public function __construct(array $data)
+        {
+            $this->hydrate($data);
+        }
+
+        
+        public function hydrate(array $data) {
+            $this->setId($data['id']);
+            $this->setName($data['name']);
+            $this->setTideIndex($data['tide_index']);
         }
         
-        public function getEnclosures() {
-            $sql = "SELECT * FROM enclosures";
-            $stmt = $this->db->query($sql);
-            
-            $enclosures = [];
-            if ($stmt->rowCount() > 0) {
-                while ($row = $stmt->fetch()) {
-                    $enclosures[] = [
-                        'id' => $row['id'],
-                        'name' => $row['name'],
-                        'tide_index' => $row['tide_index'],
-                        'a1_name' => $row['a1_name'],
-                        'a2_name' => $row['a2_name'],
-                        'a3_name' => $row['a3_name'],
-                        'a4_name' => $row['a4_name'],
-                        'a5_name' => $row['a5_name'],
-                        'a6_name' => $row['a6_name'],
-                    ];
-                }
-            }
-            
-            return $enclosures;
+        public function getId()
+        {
+                return $this->id;
+        }
+
+        public function setId($id)
+        {
+                $this->id = $id;
+
+                return $this;
+        }
+
+        public function getName()
+        {
+                return $this->name;
+        }
+
+        public function setName($name)
+        {
+                $this->name = $name;
+
+                return $this;
+        }
+
+        public function getTideIndex()
+        {
+                return $this->tideIndex;
+        }
+
+        public function setTideIndex($tideIndex)
+        {
+                $this->tideIndex = $tideIndex;
+
+                return $this;
+        }
+
+        public function getAnimals()
+        {
+                return $this->animals;
+        }
+
+        public function setAnimals($animals)
+        {
+                $this->animals [] = $animals;
+
+                return $this;
         }
     }
 ?>

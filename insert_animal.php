@@ -14,6 +14,7 @@ include_once("PARTIALS/header.php");
       move_uploaded_file($_FILES['sound']['tmp_name'], 'SOUNDS/' . $sound);
     }
 ?>
+
     <section class="h-100 bg-image"
                 style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');
                 background-size: cover;
