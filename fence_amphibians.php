@@ -8,6 +8,9 @@
   $manager->getAnimalFromEnclosure($amphibianEnclosure);
 
   $amphibians = $amphibianEnclosure->getAnimals();
+
+  $manager = new EnclosureManager($db);
+  $enclosures = $manager->getEnclosures();
 ?>
 
 <body style=" background-image: url('IMAGES/enc_amph.jpg');
@@ -17,10 +20,48 @@
                 height: 100vh;
                 ">
 
+<section id="main" style="background-color: rgba(125, 125, 125, 0.4) ;">
 
-<div class="container text-center">
-  <img src="IMAGES/clipart.png" alt="clipart" height="250" width="600">
-  <h1 style="position: absolute; top: 13vh; left:44vw">Amphibians</h1>
+<div class="container-fluid text-center">
+  <div class="row">
+    <div class="col col-lg-2 col-md-0 col-sm-0 d-flex justify-content-start my-3">
+      <div class="me-2 mt-3"><h5>Time:</h5></div>
+      <div id="hour" class="mt-3"></div>
+      <div class="ms-2">
+        <img id="daytimeicon" src="IMAGES/sun.png" alt="day-night" width="60" height="60">
+      </div>
+    </div>
+
+    <div id="clipart" class="col col-lg-8 col-md-8 col-sm-8">
+      <img src="IMAGES/clipart.png" alt="clipart" height="250" width="600">
+      <h1 style="position: absolute; top: 13vh; left:44vw">Amphibians</h1>
+    </div>
+    <div class="col col-lg-2 col-md-4 col-sm-4 d-flex justify-content-between align-items-start">
+    <?php 
+  
+  function changeElements($message, $icon, $class) {
+    echo '<h6 class="ps-4 pt-4 '. $class .'">'. $message .'</h6>
+          <img src="'. $icon .'" alt="cleanstatusicon" width="70" height="70">
+          ';
+          }
+  
+  $tideIndex = $amphibianEnclosure->getTideIndex();
+  if($tideIndex == 3) {
+    changeElements('The enclosure is clean!','IMAGES/clean.png', 'text-success');
+  } 
+  
+  if($tideIndex == 2) {
+    changeElements('It starts stincking!','IMAGES/semi-dirty.png', 'text-secondary');
+  }
+  
+  if($tideIndex <= 1) {
+    changeElements('Clean up needed!','IMAGES/shitty.png', 'text-danger');
+  }  
+  
+  ?>
+    </div>
+  </div>
+
 </div>
 
 <div id="fence" class="container-fluid d-flex justify-content-evenly text-center mt-5" style="position:relative; top: 10vh">
@@ -32,18 +73,18 @@
       <img id="sound<?= $key ?>" src="ICONS/sound.png" alt="sound" width="40" height="40" style="cursor:pointer">
     </div>
     <div class="d-flex align-items-center">
-      <img class="mx-2" src="ICONS/hearth.png" alt="health" width="30" height="30">
+      <img id="hearth" class="mx-2" src="ICONS/hearth.png" alt="health" width="30" height="30">
         <div class="progress">
-        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-        aria-valuemin="0" aria-valuemax="100" style="width:140px">
+        <div id="health" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+        aria-valuemin="0" aria-valuemax="100">
       </div>
       </div>
     </div>
     <div class="d-flex align-items-center">
-      <img class="mx-2" src="ICONS/eat.png" alt="health" width="30" height="30">
+      <img id="eat" class="mx-2" src="ICONS/eat.png" alt="health" width="30" height="30">
         <div class="progress">
-        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-        aria-valuemin="0" aria-valuemax="100" style="width:140px">
+        <div id="hunger" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+        aria-valuemin="0" aria-valuemax="100">
       </div>
       </div>
     </div>
@@ -73,10 +114,187 @@
     <div class="col"> <img src="ICONS/fence.png" alt="" style="width:100%" height="400"></div>
   </div>
 </div>
-<img src="ICONS/keeper.png" alt="" width=172 height="300" style="position:absolute; bottom:0;">
+<img id="worker" src="ICONS/keeper.png" alt="" width=172 height="300" style="position:absolute; bottom:0; cursor: pointer">
+
+<!-- WORKER FUNCTIONS -->
+
+<div class="workerfunctions d-flex flex-column" style="position: absolute; bottom: 50px; left: 150px; visibility: hidden">
+  <div class="workerbubble">
+    <div id="bubble" class="bubble bubble-bottom-left text-white" contenteditable style="position:fixed; left:5vw; bottom: 28vh">Sir, I'm ready!</div>
+    </div>
+
+<button id="feed" type="button" class="btn btn-primary-outline my-2" style="background-color: transparent;
+  border-color: black;">Feed</button>
+
+<!-- CLEANING UP / SENDING TO WORKER CLASS METHOD -->
+<form action="treatTide.php" method="GET">
+  <input type="hidden" name="id" value="<?= $amphibianEnclosure->getId()?>">
+  <input type="hidden" name="fence_name" value="<?= $amphibianEnclosure->getName()?>">
+  <button id="cleanup" type="submit" class="btn btn-primary-outline my-2" style="background-color: transparent;
+  border-color: black;">CleanUp</button>
+</form>
+
+<button id="heal" type="button" class="btn btn-primary-outline my-2" style="background-color: transparent;
+  border-color: black;">Heal</button>
+</div>
 
 <div id="tooltip" class="d-flex flex-column">
 </div>
+
+<!-- SCRIPTS -->
+
+<script>
+  // SIMULATED HOUR
+
+      function updateTime() {
+        // START AT 00:00
+        let timeStr = localStorage.getItem("time") || "00:00";
+        let [hours, minutes] = timeStr.split(":").map(Number);
+        
+        // INCREMENT THE TIME BY ONE SECOND
+        if (minutes < 59) {
+          minutes++;
+        } else {
+          hours++;
+          minutes = 0;
+          if (hours > 23) {
+            hours = 0;
+          }
+        }
+       
+        // STORE THE UPDATED TIME IN THE LOCAL BROWSER STORAGE
+        timeStr = `${hours.toString().padStart(2, "0")}:${minutes
+          .toString()
+          .padStart(2, "0")}`;
+        localStorage.setItem("time", timeStr);
+
+        // UPDATE THE TIME DISPLAY
+        document.getElementById("hour").textContent = timeStr;
+
+        // NIGHTTIME AND DAYTIME CONFIGURATIONS
+        const isNighttime = hours >= 19 || hours < 7;
+        const isDaytime = hours >=7 && hours < 19;
+
+        const sleepIcons = document.querySelectorAll('#sleep');
+
+        if (isNighttime) {
+          sleepIcons.forEach((icon) => {
+           icon.setAttribute('src', 'ICONS/sleep.png');
+          });
+          document.getElementById("daytimeicon").src = "IMAGES/moon.png";
+          document.body.style.backgroundImage = "url('IMAGES/enc_amph.jpg')";
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundPosition = "center";
+          document.body.style.backgroundRepeat = "no-repeat";
+          document.body.style.height = "100vh";
+          document.body.style.filter = "brightness(0.5)";
+          } 
+          
+         if(isDaytime) {
+          sleepIcons.forEach((icon) => {
+           icon.setAttribute('src', 'ICONS/visit.png');
+          });
+           document.getElementById("daytimeicon").src = "IMAGES/sun.png";
+           document.body.style.backgroundImage = "url('IMAGES/enc_amph.jpg')";
+           document.body.style.backgroundSize = "cover";
+           document.body.style.backgroundPosition = "center";
+           document.body.style.backgroundRepeat = "no-repeat";
+           document.body.style.height = "100vh";
+           document.body.style.filter = "";
+
+         } 
+  }
+
+// UPDATE THE TIME EVERY 3 SECONDS
+
+setInterval(updateTime, 1000);
+
+// GET WORKER BUTTONS  
+const workerBtn = document.querySelector('#worker');
+  const sectionMain = document.getElementById('main');
+  const workerActions = document.querySelector('.workerfunctions');
+  const cleanUp = document.getElementById('cleanup');
+
+  workerBtn.addEventListener('click', function(event){
+    workerActions.style.visibility = "visible";
+    event.stopPropagation();
+  })
+
+  sectionMain.addEventListener('click', function(){
+    workerActions.style.visibility = "hidden";
+  })
+
+// HEALTH FUNCTION      
+const healthIcons = document.querySelectorAll("#health");
+const hearths = document.querySelectorAll('#hearth');
+const heal = document.getElementById('heal');
+
+healthIcons.forEach((icon) => {
+  let currentHealth = localStorage.getItem('currentHealth') || 140;
+
+  icon.style.width = `${currentHealth}px`;
+
+  function updateHealth() {
+    currentHealth -= 1;
+    icon.style.width = `${currentHealth}px`;
+    localStorage.setItem('currentHealth', currentHealth);
+
+    // CHANGE HEALTH ICON WHEN NO POINTS LEFT
+    if (currentHealth <= 0) {
+      hearths.forEach((hearth) => {
+      hearth.src = 'ICONS/broken-heart.png';
+      })
+      heal.addEventListener('click', function(){
+        currentHealth = 140;
+        icon.style.width = `${currentHealth}px`;
+        localStorage.setItem('currentHealth', currentHealth);
+        hearths.forEach((hearth) => {
+        hearth.src = 'ICONS/hearth.png';
+      })
+      })
+    }
+  }
+
+  const healthInterval = setInterval(updateHealth, 20000);
+});
+
+
+// HUNGER FUNCTION
+const hungerIcons = document.querySelectorAll("#hunger");
+const eat = document.querySelectorAll('#eat');
+const feed = document.getElementById('feed');
+
+hungerIcons.forEach((icon) => {
+  
+  let currentHunger = localStorage.getItem('currentHunger') || 140;
+
+  icon.style.width = `${currentHunger}px`;
+
+  function updateHunger() {
+    currentHunger -= 1;
+    icon.style.width = `${currentHunger}px`;
+    localStorage.setItem('currentHunger', currentHunger);
+
+    // CHANGE HUNGER ICON WHEN NO POINTS LEFT
+    if (currentHunger <= 0) {
+      eat.forEach((icon) => {
+        icon.src = 'ICONS/hunger.png';
+      })
+      feed.addEventListener('click', function(){
+        currentHunger = 140;
+        icon.style.width = `${currentHunger}px`;
+        localStorage.setItem('currentHunger', currentHunger);
+        eat.forEach((icon) => {
+        icon.src = 'ICONS/eat.png';
+      })
+      })
+    }
+  }
+
+  const hungerthInterval = setInterval(updateHunger, 5000);
+});
+
+</script>
 
 <script>
 
@@ -132,7 +350,8 @@
   });
 }
 </script>
-
+</section>
+<script src="JAVASCRIPT/ajax.js"></script>
 <?php
   include_once('PARTIALS/footer.php');
 ?>

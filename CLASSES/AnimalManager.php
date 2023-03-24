@@ -7,6 +7,7 @@ class AnimalManager {
         $this->db = $db;
     }
 
+    // GET ALL ANIMALS
     public function getAnimals() {
         $sql = "SELECT * FROM animals";
         $statement = $this->db->query($sql);
@@ -20,6 +21,7 @@ class AnimalManager {
         return $animals;
     }
 
+    // ADDING AN ANIMAL TO THE DATABASE TABLE
     public function addAnimal($specie_type, $specie_name, $size, $weight, $age, $enclosure_name, $icon, $sound) {
         $statement = $this->db->prepare("
             INSERT INTO animals (specie_type, specie_name, size, weight, age, enclosure_name, icon, sound)
@@ -48,6 +50,7 @@ class AnimalManager {
         }
     }
 
+    // PRETTY DUMP FUNCTION
     public function prettyDump($data){
         highlight_string("<?php\n\$data =\n" . var_export($data, true) . ";\n?>");
     }

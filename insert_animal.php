@@ -98,8 +98,12 @@ include_once("PARTIALS/header.php");
   </div>
 </section>
 <div>
-<img id="keeper" src="ICONS/keeper.png" alt="" width=384 height="640" style="position:absolute; bottom:1vw">
-  <div id="bubble" class="bubble bubble-bottom-left text-white" contenteditable style="position:absolute; left:14vw; bottom: 56vh">Hi Sir, Gimme that animal!</div>
+  <div class="addanimalkeeper">
+    <img id="keeper" src="ICONS/keeper.png" alt="" width=384 height="640" style="position:absolute; bottom:1vw">
+  </div>
+<div class="addanimalbublle">
+  <div id="bubble" class="bubble bubble-bottom-left text-white" contenteditable style="position:absolute; left:14vw; bottom: 56vh">Sir, Gimme that animal!</div>
+</div>
 </div>
 
 <?php

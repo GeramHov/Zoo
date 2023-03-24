@@ -1,4 +1,4 @@
-// KEEPER AND BUBBLE SHOW START
+// KEEPER AND BUBBLE APPEAR
 
 let keeper = document.getElementById('keeper');
 let bubble = document.getElementById('bubble');
@@ -10,5 +10,3 @@ setTimeout(function() {
   setTimeout(function() {
     bubble.style.display = 'block';
   }, 1000);
-
-// KEEPER AND BUBBLE SHOW END

@@ -4,7 +4,8 @@ class Enclosure
         private $id;
         private $name;
         private $tideIndex;
-// ADD A ENCLOSURE ANIMAL COUNT LIMITED TO 6
+        private $animalsByEnclosure;
+
         private $animals = []; 
         
         public function __construct(array $data)
@@ -17,6 +18,7 @@ class Enclosure
             $this->setId($data['id']);
             $this->setName($data['name']);
             $this->setTideIndex($data['tide_index']);
+            $this->setAnimalsByEnclosure($data['animals_quantity']);
         }
         
         public function getId()
@@ -63,6 +65,18 @@ class Enclosure
         public function setAnimals($animals)
         {
                 $this->animals [] = $animals;
+
+                return $this;
+        }
+
+        public function getAnimalsByEnclosure()
+        {
+                return $this->animalsByEnclosure;
+        }
+
+        public function setAnimalsByEnclosure($animalsByEnclosure)
+        {
+                $this->animalsByEnclosure = $animalsByEnclosure;
 
                 return $this;
         }
