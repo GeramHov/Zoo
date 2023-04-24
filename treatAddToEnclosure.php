@@ -7,5 +7,5 @@
         $manager = new Worker($db);
         $message = $manager->AddAnimalInEnclosure($_GET['specie_type'], $_GET['animals_quantity']);
     
-        header('Location: ../enclosures.php?message='. $message .'');
+        header('Location: ./enclosures.php?message='. $message .'');
 ?>

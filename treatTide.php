@@ -5,6 +5,6 @@
 $manager = new Worker($db);
 $manager->cleanUp($_GET['id']);
 
-header('Location: ../fence_'. $_GET['fence_name'] .'.php');
+header('Location: ./fence_'. $_GET['fence_name'] .'.php');
 
 ?>

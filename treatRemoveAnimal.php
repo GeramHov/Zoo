@@ -5,6 +5,6 @@
     $manager = new Worker($db);
     $removeAnimal = $manager->RemoveAnimalFromEnclosure();
     
-    header('Location: ../enclosures.php');
+    header('Location: ./enclosures.php');
     
     // REMOVING ANIMAL FROM GIVEN ENCLOSURE 
