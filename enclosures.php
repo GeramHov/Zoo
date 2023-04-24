@@ -86,7 +86,7 @@
 
                     <!-- REMOVE ANIMAL FORM START -->
 
-                        <form action="../treatRemoveAnimal.php" method="get">
+                        <form action="./treatRemoveAnimal.php" method="get">
                             <input type="hidden" name="enclosure_id" value="<?= $animal->getEnclosureId()?>">
                             <input type="hidden" name="id" value="<?= $animal->getId()?>">
                             <button type="submit" style="border: none; background: transparent">
@@ -161,7 +161,7 @@ animalBtns.forEach(function(animalBtn) {
     window.history.pushState(null, null, `?enclos_id=${enclosureId}&animals_quantity=${fenceQuantity}&animal_id=${animalId}&specie_type=${animalType}`);
 
     setTimeout(function(){
-        window.location.href = `../treatAddToEnclosure.php?enclos_id=${enclosureId}&animals_quantity=${fenceQuantity}&animal_id=${animalId}&specie_type=${animalType}`;
+        window.location.href = `./treatAddToEnclosure.php?enclos_id=${enclosureId}&animals_quantity=${fenceQuantity}&animal_id=${animalId}&specie_type=${animalType}`;
     }, 1800)
     document.getElementById("bubble").innerHTML = "<span class='text-success'>That animal will be placed immediately, Sir...</span>";
 
